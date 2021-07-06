@@ -1,0 +1,18 @@
+const express = require('express');
+const mysql = require('mysql');
+const inquirer = require('inquirer');
+const table = require('console.table');
+
+// Import model to sync table with database
+// const Schema = require('./db/schema');
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Force true to drop/recreate table(s) on every sync
+sequelize.sync({ force: true }).then(() => {
+  app.listen(PORT, () => console.log('Now listening'));
+});
