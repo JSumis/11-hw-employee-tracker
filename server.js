@@ -72,7 +72,7 @@ async function viewAllEmployees() {
       console.table(results);
     }
   );
-  // init();
+  init();
 }
 
 async function viewAllEmployeesByDepartment() {
@@ -98,11 +98,12 @@ async function viewAllEmployeesByManager() {
 
 async function addEmployee() {
   let employeeRoleID = await connection.query(
-    "Select * FROM role",
-    function (error, results, field) {
-      console.table(results);
-    }
+    "Select * FROM role inner join department on department.id = role.department_id"
   );
+  console.log(employeeRoleID)
+  // let managerID = await connection.query(
+  //   "Select * FROM employee"
+  // )
   let newEmployee = await inquirer.prompt([
     {
       type: "input",
@@ -157,24 +158,25 @@ async function addDepartment() {
   init();
 }
 async function addRole() {
-  let departments;
-    await connection.query(
-    `SELECT * from department`,
-    function (error, results, field) {
-      if (error) console.log(error);
-      departments = results.map((item) => ({name: item.name, value: item.id}));
-      console.log(departments);
-    }
-  )
-  let roleDepartment = await inquirer.prompt ([
-    {
-      type: "list",
-      message: "Enter the department for this role",
-      name: "department_role",
-      choices: departments,
-    }
-  ])
-  console.log(roleDepartment)
+  // let departments;
+  //   await connection.query(
+  //   `SELECT * from department`,
+  //   function (error, results, field) {
+  //     if (error) console.log(error);
+  //     departments = [...new Set(results.map((item) => ({name: item.name, value: item.id})))];
+  //     console.log(departments);
+  //   }
+  // )
+
+  // let roleDepartment = await inquirer.prompt ([
+  //   {
+  //     type: "list",
+  //     message: "Enter the department for this role",
+  //     name: "department_role",
+  //     choices: departments.map(({name,value}) => ({name, value})),
+  //   }
+  // ])
+  // console.log(roleDepartment)
   // let newRole = await inquirer.prompt([
   //   {
   //     type: "input",
@@ -182,7 +184,30 @@ async function addRole() {
   //     message: "Enter role name",
   //   },
   // ])
-  init();
+  const searchDept = await connection.query('SELECT id, name from department;')
+  const deptArray = [... new Set((searchDept.map(dept => ({id: dept.id, name: dept.name}))))]
+  const query = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'department_id',
+      message: 'What department will this role be in?',
+      choices: deptArray.map(({id,name}) => ({name,value:id}))
+    },{
+      type: 'input',
+      name: 'title',
+      message: 'What is the tile of this role?'
+    },{
+      type: 'input',
+      name: 'salery',
+      message: 'What is the salery?'
+    }
+  ])
+  await connection.query(`INSERT INTO role(title, salery, department_id) VALUES ('${query.title}', '${query.salery}', '${query.department_id}')`,
+  function (error, results, field) {
+    if (error) console.log(error);
+    init();
+  })
+ 
 }
 // within get department ids and names pass in inq prompt(connection.query set to a variable and pass into inq prompt)
 
