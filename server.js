@@ -37,6 +37,7 @@ function init() {
       if (question.task === "View All Employees") {
         // console.log("Success!");
         viewAllEmployees();
+        
       } else if (question.task === "View All Employees by Department") {
         viewAllEmployeesByDepartment();
       } else if (question.task === "View All Employees by Manager") {
@@ -146,32 +147,32 @@ async function addDepartment() {
   init();
 }
 async function addRole() {
-  // let departments;
-  //   await connection.query(
-  //   `SELECT * from department`,
-  //   function (error, results, field) {
-  //     if (error) console.log(error);
-  //     departments = [...new Set(results.map((item) => ({name: item.name, value: item.id})))];
-  //     console.log(departments);
-  //   }
-  // )
+  let departments;
+    await connection.query(
+    `SELECT * from department`,
+    function (error, results, field) {
+      if (error) console.log(error);
+      departments = [...new Set(results.map((item) => ({name: item.name, value: item.id})))];
+      console.log(departments);
+    }
+  )
 
-  // let roleDepartment = await inquirer.prompt ([
-  //   {
-  //     type: "list",
-  //     message: "Enter the department for this role",
-  //     name: "department_role",
-  //     choices: departments.map(({name,value}) => ({name, value})),
-  //   }
-  // ])
-  // console.log(roleDepartment)
-  // let newRole = await inquirer.prompt([
-  //   {
-  //     type: "input",
-  //     name: "role_name",
-  //     message: "Enter role name",
-  //   },
-  // ])
+  let roleDepartment = await inquirer.prompt ([
+    {
+      type: "list",
+      message: "Enter the department for this role",
+      name: "department_role",
+      choices: departments.map(({name,value}) => ({name, value})),
+    }
+  ])
+  console.log(roleDepartment)
+  let newRole = await inquirer.prompt([
+    {
+      type: "input",
+      name: "role_name",
+      message: "Enter role name",
+    },
+  ])
   const searchDept = await connection.query('SELECT id, name from department;')
   const deptArray = [... new Set((searchDept.map(dept => ({id: dept.id, name: dept.name}))))]
   const query = await inquirer.prompt([
