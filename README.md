@@ -22,12 +22,12 @@
 
   ## Usage
 
-  npm run seed
   npm start
 
   ## Walkthrough
 
-https://drive.google.com/file/d/16SjiR2_N1IE0X_6suRM8-_iw8qmjnEn6/view
+https://watch.screencastify.com/v/mhrMlUQfa2VmRrxKCgZ0
+
 
   ## Questions
 
