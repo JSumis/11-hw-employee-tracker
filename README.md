@@ -26,8 +26,7 @@
 
   ## Walkthrough
 
-https://watch.screencastify.com/v/mhrMlUQfa2VmRrxKCgZ0
-
+  https://drive.google.com/file/d/1vtkWjJuWk1gRjhW4bp3x8e_qDSp3416I/view
 
   ## Questions
 
